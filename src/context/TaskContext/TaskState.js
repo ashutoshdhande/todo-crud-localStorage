@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import TaskReducer from "./TaskReducer";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -13,28 +13,18 @@ export const TaskContext = createContext();
 
 const TaskState = (props) => {
   const initialState = {
-    tasks: [
-      {
-        msg: "Walk the dog",
-        id: 1,
-      },
-      {
-        msg: "Feed the cat",
-        id: 2,
-      },
-      {
-        msg: "Do Data Structures",
-        id: 3,
-      },
-      {
-        msg: "Upper Body Workout",
-        id: 4,
-      },
-    ],
+    tasks: [],
     current: null,
   };
 
-  const [state, dispatch] = useReducer(TaskReducer, initialState);
+  const [state, dispatch] = useReducer(TaskReducer, initialState, () => {
+    const localData = localStorage.getItem("tasks");
+    return localData ? JSON.parse(localData) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(state));
+  }, [state]);
 
   //ADD TASK
   const addTask = (task) => {
