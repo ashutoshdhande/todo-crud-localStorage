@@ -1,9 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../context/TaskContext/TaskState";
 
 const InputField = () => {
   const taskContext = useContext(TaskContext);
+  const { addTask, current, updateTask, clearCurrent } = taskContext;
   const [task, setTask] = useState({ msg: "" });
+
+  useEffect(() => {
+    if (current !== null) {
+      setTask(current);
+    } else {
+      setTask({ msg: "" });
+    }
+  }, [taskContext, current]);
 
   const { msg } = task;
 
@@ -11,7 +20,12 @@ const InputField = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    taskContext.addTask(task);
+    if (current === null) {
+      addTask(task);
+    } else {
+      updateTask(task);
+    }
+    clearCurrent();
     setTask({ msg: "" });
   };
 
@@ -28,7 +42,7 @@ const InputField = () => {
         />
         <div className="input-group-append">
           <button type="submit" className="btn btn-success">
-            ADD TASK
+            {current === null ? "ADD" : "UPDATE"}
           </button>
         </div>
       </div>

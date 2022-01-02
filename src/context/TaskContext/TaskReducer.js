@@ -1,5 +1,11 @@
 import React from "react";
-import { ADD_TASK, CLEAR_CURRENT, DELETE_TASK, SET_CURRENT } from "../types";
+import {
+  ADD_TASK,
+  CLEAR_CURRENT,
+  DELETE_TASK,
+  SET_CURRENT,
+  UPDATE_TASK,
+} from "../types";
 
 const TaskReducer = (state, action) => {
   switch (action.type) {
@@ -7,6 +13,13 @@ const TaskReducer = (state, action) => {
       return {
         ...state,
         tasks: [...state.tasks, action.payload],
+      };
+    case UPDATE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload.id ? action.payload : task
+        ),
       };
     case DELETE_TASK:
       return {
