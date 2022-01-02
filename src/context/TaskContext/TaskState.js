@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from "react";
 import TaskReducer from "./TaskReducer";
 import { v4 as uuidv4 } from "uuid";
-import { ADD_TASK } from "../types";
+import { ADD_TASK, DELETE_TASK } from "../types";
 
 export const TaskContext = createContext();
 
@@ -35,11 +35,17 @@ const TaskState = (props) => {
     dispatch({ type: ADD_TASK, payload: task });
   };
 
+  //DELETE TASK
+  const deleteTask = (id) => {
+    dispatch({ type: DELETE_TASK, payload: id });
+  };
+
   return (
     <TaskContext.Provider
       value={{
         tasks: state.tasks,
         addTask,
+        deleteTask,
       }}
     >
       {props.children}

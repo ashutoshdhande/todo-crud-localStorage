@@ -1,5 +1,5 @@
 import React from "react";
-import { ADD_TASK } from "../types";
+import { ADD_TASK, DELETE_TASK } from "../types";
 
 const TaskReducer = (state, action) => {
   switch (action.type) {
@@ -7,6 +7,11 @@ const TaskReducer = (state, action) => {
       return {
         ...state,
         tasks: [...state.tasks, action.payload],
+      };
+    case DELETE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.filter((task) => task.id !== action.payload),
       };
     default:
       return state;
