@@ -1,26 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { TaskContext } from "../context/TaskContext/TaskState";
 import Task from "./Task";
 
 const TaskList = () => {
-  const tasks = [
-    {
-      msg: "Walk the dog",
-      id: 1,
-    },
-    {
-      msg: "Feed the cat",
-      id: 2,
-    },
-    {
-      msg: "Do Data Structures",
-      id: 3,
-    },
-    {
-      msg: "Upper Body Workout",
-      id: 4,
-    },
-  ];
-
+  const taskContext = useContext(TaskContext);
+  const { tasks } = taskContext;
   return (
     <div>
       {tasks.map((task) => (
